@@ -2,7 +2,7 @@ package com.example.crypto_web.controllers;
 
 
 import com.example.crypto_web.CryptoCoin;
-import com.example.crypto_web.repositories.CoinRepository;
+import com.example.crypto_web.repository.CoinRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

@@ -1,4 +1,4 @@
-package com.example.crypto_web.repositories;
+package com.example.crypto_web.repository;
 
 import com.example.crypto_web.Holdings;
 import org.springframework.data.jpa.repository.JpaRepository;
