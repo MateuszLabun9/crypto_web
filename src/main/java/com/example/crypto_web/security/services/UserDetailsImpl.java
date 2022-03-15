@@ -19,8 +19,10 @@ public class UserDetailsImpl implements UserDetails {
     private Long id;
     private String username;
     private String email;
+
     @JsonIgnore
     private String password;
+
     private Collection<? extends GrantedAuthority> authorities;
 
     public UserDetailsImpl(Long id, String username, String email, String password, Collection<? extends GrantedAuthority> authorities) {

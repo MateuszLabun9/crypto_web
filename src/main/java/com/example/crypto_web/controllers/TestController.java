@@ -1,6 +1,7 @@
 package com.example.crypto_web.controllers;
 
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,20 +12,21 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/test")
 public class TestController {
+
+
     @GetMapping("/all")
     public String allAccess(){
         return "Public Content";
     }
 
+    @PreAuthorize("hasAuthority('ROLE_USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
     @GetMapping("/user")
-    //@PreAuthorize("hasRole('ROLE_USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
-    @Secured("USER")
     public String userAccess(){
         return "User Content";
     }
 
     @GetMapping("/mod")
-    @PreAuthorize("hasRole('MODERATOR')")
+    @PreAuthorize("hasAuthority('ROLE_MODERATOR')")
     public String modAccess(){
         return "Moderator Access";
     }
@@ -34,7 +36,5 @@ public class TestController {
     public String adminAccess(){
         return "Admin Access";
     }
-
-
 
 }

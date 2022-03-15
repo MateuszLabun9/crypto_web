@@ -18,28 +18,32 @@ public class JwtUtils {
     @Value("${cryptoweb.app.jwtExpirationMs}")
     private String jwtExpirationMs;
 
-    public String generateJwtToken(Authentication authentication){
+    public String generateJwtToken(Authentication authentication) {
         Long jwtExpiration = 86400000L;
         UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
+
         return Jwts.builder().setSubject((userPrincipal.getUsername())).setIssuedAt(new Date())
                 .setExpiration(new Date((new Date()).getTime() + jwtExpiration)).signWith(SignatureAlgorithm.HS512, jwtSecret)
                 .compact();
     }
-    public String getUserNameFromJwtToken(String token){
+
+    public String getUserNameFromJwtToken(String token) {
         return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject();
     }
-    public boolean validateJwtToken(String authToken){
-        try{
+
+    public boolean validateJwtToken(String authToken) {
+        try {
             Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken);
-        }catch (SignatureException e){
+            return true;
+        } catch (SignatureException e) {
             logger.error("Invalid JWT signature: {}", e.getMessage());
-        }catch (MalformedJwtException e){
+        } catch (MalformedJwtException e) {
             logger.error("Inwalid JWT token: {}", e.getMessage());
-        }catch (ExpiredJwtException e){
+        } catch (ExpiredJwtException e) {
             logger.error("JWT token is expired: {}", e.getMessage());
-        }catch (UnsupportedJwtException e){
+        } catch (UnsupportedJwtException e) {
             logger.error("JWT token is unsupported: {}", e.getMessage());
-        }catch (IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             logger.error("JWT claims string is empty: {}", e.getMessage());
         }
         return false;
