@@ -1,7 +1,7 @@
 package com.example.crypto_web.controllers;
 
 
-import com.example.crypto_web.CryptoCoin;
+import com.example.crypto_web.models.Coin;
 import com.example.crypto_web.repository.CoinRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -18,12 +18,12 @@ public class CryptoCoinController {
     private CoinRepository coinRepository;
 
     @GetMapping("/")
-    public List <CryptoCoin> getAllCryptoCoin () {
+    public List <Coin> getAllCryptoCoin () {
         return coinRepository.findAll();
     }
 
     @GetMapping("/{id}")
-    public Optional<CryptoCoin> getCoin(@PathVariable Long id){
+    public Optional<Coin> getCoin(@PathVariable Long id){
         return coinRepository.findById(id);
     }
 }

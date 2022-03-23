@@ -57,23 +57,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable()
+
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests((request) ->
-                        request.antMatchers("/api/auth/**", "/holdings/**", "/coin/**").permitAll()
+                        request.antMatchers("/api/auth/**").permitAll()
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .anyRequest().authenticated());
 
-        http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
-//                .csrf().disable() //enable to send post req and not being rejected, for form auth should be enabled
-//                .authorizeRequests()
-//                    .antMatchers("/holdings/",
-//                            "/coin/",
-//                            "/api/v*/registration/**") //all req from there have a permission api/v*/registration
-//                    .permitAll()
-//                .anyRequest()
-//                .authenticated().and()
-//                .formLogin();
+            http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+
     }
 
 
